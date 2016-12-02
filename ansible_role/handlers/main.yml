@@ -1,0 +1,4 @@
+---
+# handlers file for zabbix_memory_usage
+- name: restart zabbix agent
+  service: name=zabbix-agent state=restarted
