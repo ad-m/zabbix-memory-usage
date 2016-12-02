@@ -52,7 +52,7 @@ def query(args):
         print("Going to update graph ID {0}".format(graph[0]['graphid']))
         res = zapi.graph.update(graphid=graph[0]['graphid'],
                                 width=args.width,
-                                height=args.width,
+                                height=args.height,
                                 gitems=gitems,
                                 graphtype=GRAPH_TYPE[args.graphtype])
         print("Graph update success" if res else "Something fail")
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                         help='URI of zabbix server eg. http://tacjana.jawne.info.pl/zabbix/')
     parser.add_argument('login', help='username of zabbix server user')
     parser.add_argument('password', help='password for zabbix server user')
-    parser.add_argument('--name', help='Name of added graph', default="Memory usage graph")
+    parser.add_argument('--name', help='Name of added graph', default="Memory usage per user")
     parser.add_argument('itemprototypeid', type=int,
                         help="ID of the item prototype from which the items has been created")
     parser.add_argument('hostid', type=int,
