@@ -15,13 +15,14 @@ To use this software do you need Zabbix server and least one Zabbix agent runnin
 To run the project, use the Ansible role to install script ``/ansible_role/templates/zabbix_memory.py`` and provide ``linux_memory.rss[*]`` and ``linux_memory.discovery_user`` user parameter in Zabbix Agent.
 
 You can use for that following playbook:
-``
+
+```
 ---
 - hosts: all
   sudo: yes
   roles:
     - role: zabbix_memory_usage
-``
+```
 
 Next to import ``/zbx_export_templates.xml`` in Zabbix server and use fresh ``Template memory usage`` template in some server.
 
