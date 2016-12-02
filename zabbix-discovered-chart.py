@@ -18,21 +18,30 @@ def get_color(i):
 def query(args):
     zapi = ZabbixAPI(args.host)
     zapi.login(args.login, args.password)
-    if not zapi.host.get(hostids=[args.hostid]):
+    hosts = zapi.host.get(hostids=[args.hostid])
+    if not hosts:
         print ("Provided host ID is invalid")
+    itemprototypes = zapi.itemprototype.get(itemids=args.itemprototypeid)
+    if not itemprototypes:
+        print ("Provided item prototypes ID is invalid")
+    print("Identifier host {0}".format(hosts[0]['name']))
+    print("Identifier item prototype {0}".format(itemprototypes[0]['name']))
+
     items = zapi.item.get(hostids=[args.hostid],
                           selectItemDiscovery='extend')
     discovered_items = [x for x in items
                         if x['itemDiscovery'] and
                         x['itemDiscovery'].get('parent_itemid') == str(args.itemprototypeid)]
     if not discovered_items:
-        print("Unable found items for hostid = {0} ".format(args.hostid) +
+        print("Unable found items for hostid = {0} ({1}) ".format(hosts[0]['name'], args.hostid) +
               "and parent_itemid = {0}".format(args.itemprototypeid))
+        print("Are you sure that the discovery rule is already created items?")
         discovery_ids = [x['itemDiscovery']['parent_itemid'] for x in items if x['itemDiscovery']]
+
         discovered_items = zapi.itemprototype.get(itemids=list(discovery_ids))
-        print ("Found only following discovery ID:")
+        print ("Found only following discovery ID for {0}:".format(hosts[0]['name']))
         for ditem in discovered_items:
-            print("{id} - {name}".format(id=ditem['itemid'], name=ditem['name']))
+            print("\t{id} - {name}".format(id=ditem['itemid'], name=ditem['name']))
         return
 
     gitems = [{"itemid": item['itemid'], "color": get_color(i)}
