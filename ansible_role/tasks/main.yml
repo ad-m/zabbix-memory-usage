@@ -18,7 +18,7 @@
           mode="u=rwx,g=rx,o=rx"
 
   - name: Add userparameter settings
-    template: src=userparameter_linux_memory.conf
-              dest=/etc/zabbix/zabbix_agentd.d/userparameter_linux_memory.conf
+    template: src=userparameter_zabbix_memory.conf
+              dest=/etc/zabbix/zabbix_agentd.d/userparameter_zabbix_memory.conf
     notify:
       - restart zabbix agent
